@@ -67,6 +67,7 @@
   :type '(choice (const    :tag "No specific (default to use `view-mode')" nil)
                  (function :tag "Arbitrary function/minor-mode like read-only.")))
 
+;;;###autoload
 (defun auto-read-only ()
   "Apply read-only mode."
   (when (and buffer-file-name
