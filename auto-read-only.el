@@ -7,7 +7,6 @@
 ;; Version: 0.0.1
 ;; Keywords: files, convenience
 ;; Homepage: https://github.com/zonuexe/auto-read-only.el
-;; Package-Requires: ((emacs "24.4"))
 
 ;; This file is NOT part of GNU Emacs.
 
@@ -71,20 +70,19 @@
 
 (defvar auto-read-only-mode-lighter " AutoRO")
 
-(defun auto-read-only--advice-find-file (&rest dummy-args)
-  "To apply read-only if detect called `find-file' interactivly.
-`DUMMY-ARGS' is ignored."
+(defun auto-read-only--hook-find-file ()
+  "To apply read-only if detect called `find-file' interactivly."
   (when (eq (window-buffer) (current-buffer)) ;; it means "file was opened interactivly".
     (auto-read-only)))
 
 ;;;###autoload
 (define-minor-mode auto-read-only-mode
-  ""
+  "Minor mode for appply auto-read-only."
   nil auto-read-only-mode-lighter nil
   :global t
   (if auto-read-only-mode
-      (advice-add 'find-file :after #'auto-read-only--advice-find-file)
-    (advice-remove 'find-file #'auto-read-only--advice-find-file)))
+      (add-hook 'find-file-hook #'auto-read-only--hook-find-file nil t)
+    (remove-hook 'find-file-hook #'auto-read-only--hook-find-file t)))
 
 ;;;###autoload
 (defun auto-read-only ()
