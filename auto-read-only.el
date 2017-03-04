@@ -6,7 +6,7 @@
 ;; Created: 4 Mar 2017
 ;; Version: 0.0.1
 ;; Keywords: files, convenience
-;; URL: https://github.com/zonuexe/auto-read-only.el
+;; Homepage: https://github.com/zonuexe/auto-read-only.el
 
 ;; This file is NOT part of GNU Emacs.
 
