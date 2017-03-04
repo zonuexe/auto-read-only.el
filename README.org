@@ -6,7 +6,8 @@ For example, it can protect library code provided by third parties.
 put into your own =.emacs= file (=init.el=)
 
 #+BEGIN_SRC emacs-lisp
-(add-hook 'find-file-hook 'auto-read-only)
+(require 'auto-read-only)
+(auto-read-only-mode 1)
 #+END_SRC
 
 ** Customize
