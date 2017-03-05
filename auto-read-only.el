@@ -37,7 +37,7 @@
 ;;
 ;; Customize:
 ;;
-;;     ;; Third party codes are installed in vendor/ director.
+;;     ;; Third party codes are installed in vendor/ directory.
 ;;     (add-to-list 'auto-read-only-file-regexps "/vendor/")
 ;;
 
