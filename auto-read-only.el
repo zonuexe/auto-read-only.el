@@ -1,4 +1,4 @@
-;;; auto-read-only.el --- Automatically make the buffer to read-only -*-
+;;; auto-read-only.el --- Automatically make the buffer to read-only
 
 ;; Copyright (C) 2017 USAMI Kenta
 
