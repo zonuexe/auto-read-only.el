@@ -90,8 +90,7 @@
   "Apply read-only mode."
   (when (and buffer-file-name
              (cl-loop for regexp in auto-read-only-file-regexps
-                      if (string-match regexp buffer-file-name) return t
-                      finally return nil))
+                      thereis (string-match-p regexp buffer-file-name)))
     (if auto-read-only-function
       (funcall auto-read-only-function)
     (view-mode 1))))
