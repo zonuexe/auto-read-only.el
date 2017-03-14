@@ -16,3 +16,11 @@ put into your own =.emacs= file (=init.el=)
 ;; Third party codes are installed in vendor/ directory.
 (add-to-list 'auto-read-only-file-regexps "/vendor/")
 #+END_SRC
+
+** Competitor
+[[https://github.com/rolandwalker/hardhat][hardhat]] is a package similar to =auto-read-only.el=.
+It has large default settings, more flexible and has compatibility with a wide range of Emacs versions.
+
+=auto-read-only= works with a simple mechanism based on hook.
+It provides a minor mode, but it is not important.
+It also does not interfere with the behavior of non-interactive Emacs Lisp codes (ex. =package-install=).
