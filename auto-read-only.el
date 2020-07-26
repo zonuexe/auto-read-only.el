@@ -82,8 +82,8 @@
   nil auto-read-only-mode-lighter nil
   :global t
   (if auto-read-only-mode
-      (add-hook 'find-file-hook #'auto-read-only--hook-find-file nil t)
-    (remove-hook 'find-file-hook #'auto-read-only--hook-find-file t)))
+      (add-hook 'find-file-hook #'auto-read-only--hook-find-file)
+    (remove-hook 'find-file-hook #'auto-read-only--hook-find-file)))
 
 ;;;###autoload
 (defun auto-read-only ()
