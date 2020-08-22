@@ -7,7 +7,7 @@
 ;; Version: 0.0.1
 ;; Keywords: files, convenience
 ;; Homepage: https://github.com/zonuexe/auto-read-only.el
-;; Package-Requires: ((cl-lib "0.5"))
+;; Package-Requires: ((emacs "25.1") (cl-lib "0.5"))
 
 ;; This file is NOT part of GNU Emacs.
 
