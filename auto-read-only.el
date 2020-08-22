@@ -73,7 +73,8 @@
 
 (defun auto-read-only--hook-find-file ()
   "To apply read-only if detect called `find-file' interactivly."
-  (when (eq (window-buffer) (current-buffer)) ;; it means "file was opened interactivly".
+  (when (and (eq (window-buffer) (current-buffer))  ;; it means "file was opened interactivly".
+             (not (cdr (project-current))))
     (auto-read-only)))
 
 ;;;###autoload
