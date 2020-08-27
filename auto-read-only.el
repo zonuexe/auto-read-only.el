@@ -7,7 +7,7 @@
 ;; Version: 0.0.1
 ;; Keywords: files, convenience
 ;; Homepage: https://github.com/zonuexe/auto-read-only.el
-;; Package-Requires: ((cl-lib "0.5"))
+;; Package-Requires: ((emacs "25.1") (cl-lib "0.5"))
 
 ;; This file is NOT part of GNU Emacs.
 
@@ -73,7 +73,8 @@
 
 (defun auto-read-only--hook-find-file ()
   "To apply read-only if detect called `find-file' interactivly."
-  (when (eq (window-buffer) (current-buffer)) ;; it means "file was opened interactivly".
+  (when (and (eq (window-buffer) (current-buffer))  ;; it means "file was opened interactivly".
+             (not (cdr (project-current))))
     (auto-read-only)))
 
 ;;;###autoload
