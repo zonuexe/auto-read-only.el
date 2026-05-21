@@ -7,7 +7,7 @@
 ;; Version: 0.0.1
 ;; Keywords: files, convenience
 ;; Homepage: https://github.com/zonuexe/auto-read-only.el
-;; Package-Requires: ((emacs "25.1") (cl-lib "0.5"))
+;; Package-Requires: ((emacs "27.1") (cl-lib "0.5"))
 
 ;; This file is NOT part of GNU Emacs.
 
@@ -71,11 +71,25 @@
 
 (defvar auto-read-only-mode-lighter " AutoRO")
 
-(defun auto-read-only--hook-find-file ()
-  "To apply read-only if detect called `find-file' interactivly."
-  (when (and (eq (window-buffer) (current-buffer))  ;; it means "file was opened interactivly".
-             (not (cdr (project-current))))
-    (auto-read-only)))
+(defun auto-read-only--maybe-activate (window-or-frame)
+  "Activate `auto-read-only' in the buffer displayed in WINDOW-OR-FRAME, if
+appropriate.
+
+The fact that the buffer is being viewed by WINDOW-OR-FRAME means that
+it has not been visited programmatically, and so lisp code that visits
+files non-interactively should be unaffected.
+
+When `auto-read-only-mode' is enabled, this function is added to
+`window-buffer-change-functions' (which see)."
+
+  (let ((buffer (cond
+                 ((windowp window-or-frame)
+                  (window-buffer window-or-frame))
+
+                 ((framep window-or-frame)
+                  (window-buffer (frame-selected-window window-or-frame))))))
+    (with-current-buffer buffer
+      (auto-read-only))))
 
 ;;;###autoload
 (define-minor-mode auto-read-only-mode
@@ -83,18 +97,27 @@
   nil auto-read-only-mode-lighter nil
   :global t
   (if auto-read-only-mode
-      (add-hook 'find-file-hook #'auto-read-only--hook-find-file)
-    (remove-hook 'find-file-hook #'auto-read-only--hook-find-file)))
+      (add-hook 'window-buffer-change-functions #'auto-read-only--maybe-activate )
+    (remove-hook 'window-buffer-change-functions #'auto-read-only--maybe-activate)))
 
 ;;;###autoload
 (defun auto-read-only ()
-  "Apply read-only mode."
+  "Apply read-only mode to the current buffer.
+
+Specifically, activate read-only mode if the current buffer:
+
+ 1) is visiting a file which matches one of the regexps in
+ `auto-read-only-file-regexps', and
+
+ 2) that file is not part of a project."
+
   (when (and buffer-file-name
              (cl-loop for regexp in auto-read-only-file-regexps
-                      thereis (string-match-p regexp buffer-file-name)))
+                      thereis (string-match-p regexp buffer-file-name))
+             (not (cdr (project-current))))
     (if auto-read-only-function
-      (funcall auto-read-only-function)
-    (view-mode 1))))
+        (funcall auto-read-only-function)
+      (view-mode 1))))
 
 (provide 'auto-read-only)
 ;;; auto-read-only.el ends here
